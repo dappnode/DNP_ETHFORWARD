@@ -1,6 +1,6 @@
 var Web3 = require('web3');
 
-const WEB3HOSTWS = process.env.WEB3HOSTWS || "ws://chain:8546" ;
+const WEB3HOSTWS = process.env.WEB3HOSTWS || "ws://my.ethchain.repo.dappnode.eth:8546" ;
 
 var web3 = new Web3(WEB3HOSTWS);
 
