@@ -6,7 +6,7 @@ const httpProxy = require('http-proxy');
 
 const proxy = httpProxy.createProxyServer({});
 
-const IPFS_REDIRECT = process.env.IPFS_REDIRECT || "http://my.ipfs.repo.dappnode.eth:8080";
+const IPFS_REDIRECT = process.env.IPFS_REDIRECT || "http://my.ipfs.dnp.dappnode.eth:8080";
 const STANDALONE = process.env.STANDALONE || false;
 
 http.createServer(async (req, res) => {
