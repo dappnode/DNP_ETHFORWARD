@@ -3,7 +3,7 @@ version: '3.4'
 services:
   dnp_ethforward:
     build: ./build
-    image: dnp_ethforward
+    image: dappnode/dnp_ethforward
     container_name: dnp_ethforward_dev
     environment:
       - IPFS_REDIRECT=http://ipfs.io
