@@ -10,14 +10,6 @@ const IPFS_REDIRECT = process.env.IPFS_REDIRECT || "http://my.ipfs.dnp.dappnode.
 const STANDALONE = process.env.STANDALONE || false;
 
 http.createServer(async (req, res) => {
-    const { headers, method, url } = req;
-    console.log("#### headers ###");
-    console.log(req.headers);
-    console.log("#### method ###");
-    console.log(req.method);
-    console.log("#### url ###");
-    console.log(req.url);
-
     var domain = req.headers.host;
 
     if (STANDALONE) {
