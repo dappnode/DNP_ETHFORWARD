@@ -1,20 +1,23 @@
-# DNP_ETHFORWARD
+# DAppNode Package ETHFORWARD (Core)
+
+<p align="left">
+  <img src="ETHFORWARD-min.png" width="100"/>
+</p>
+
+[![Website dappnode.io](https://img.shields.io/badge/Website-dappnode.io-brightgreen.svg)](https://dappnode.io/)
+[![Documentation Wiki](https://img.shields.io/badge/Documentation-Wiki-brightgreen.svg)](https://github.com/dappnode/DAppNode/wiki)
+[![GIVETH Campaign](https://img.shields.io/badge/GIVETH-Campaign-1e083c.svg)](https://alpha.giveth.io/campaigns/OcKJryNwjeidMXi9)
+[![RIOT DAppNode](https://img.shields.io/badge/RIOT-DAppNode-blue.svg)](https://riot.im/app/#/room/#DAppNode:matrix.org)
+[![Twitter Follow](https://img.shields.io/twitter/follow/espadrine.svg?style=social&label=Follow)](https://twitter.com/DAppNODE?lang=es)
 
 Dappnode package responsible for providing .eth address resolve through ENS
+
+It is an AragonApp whose repo is deployed at this address: [0x294888d97308d7ce3445d83d90268b29282863f7](https://etherscan.io/address/0x294888d97308d7ce3445d83d90268b29282863f7) and whose ENS address is: [ethforward.dnp.dappnode.eth](https://etherscan.io/enslookup?q=ethforward.dnp.dappnode.eth])
+
 
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
-
-This repository provides the way to run ethforward in standalone mode, using [infura](https://infura.io/) and redirecting through http://ipfs.io.
-
-Due to this it will be able to load pages stored in IPFS in the following way: http://localhost:8888/domain.eth
-
-For example:
-```
-http://localhost:8888/baylina.eth
-```
-The version running on a Dappnode connects to the locale services, both ipfs and the ethereum blockchain
 
 ### Prerequisites
 
@@ -39,7 +42,7 @@ $ git clone https://github.com/dappnode/DNP_ETHFORWARD.git
 ```
 
 ```
-$ docker-compose build
+$ docker-compose -f docker-compose-ethforward.yml build
 or 
 $ docker build --rm -f build/Dockerfile -t dnp_ethforward:dev build 
 ```
@@ -48,19 +51,19 @@ $ docker build --rm -f build/Dockerfile -t dnp_ethforward:dev build
 
 ### Start
 ```
-$ docker-compose up -d
+$ docker-compose -f docker-compose-ethforward.yml up -d
 ```
 ### Stop
 ```
-$ docker-compose down
+$ docker-compose -f docker-compose-ethforward.yml down
 ```
 ### Status
 ```
-$ docker-compose ps
+$ docker-compose -f docker-compose-ethforward.yml ps
 ```
 ### Logs
 ```
-$ docker-compose logs -f
+$ docker-compose -f docker-compose-ethforward.yml logs -f
 ```
 
 **Note**: In case of having the port 8888 occupied, you should change them in the file docker-compose.yml by other.
@@ -70,7 +73,7 @@ $ docker-compose logs -f
 [xz](https://tukaani.org/xz/) is required 
 
 ```
-$ docker save dnp_ethforward:dev | xz -9 > dnp_ethforward.tar.xz
+$ docker save dnp_ethforward:dev | xz -e9vT0 > dnp_ethforward.tar.xz
 ```
 
 You can download the latest tar.xz version from here [releases](https://github.com/dappnode/DNP_ETHFORWARD/releases).
@@ -83,7 +86,7 @@ $docker load -i dnp_ethforward.tar.xz
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](https://github.com/dappnode) for details on our code of conduct, and the process for submitting pull requests to us.
+Please read [CONTRIBUTING.md](https://github.com/dappnode/DAppNode/blob/master/CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
 
 ## Versioning
 
@@ -91,13 +94,14 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## Authors
 
-* **Eduardo Antuña Díez** - *Initial work* - [eduadiez](https://github.com/eduadiez)
+* **Jordi Baylina** - *Initial work * - [jbaylina](https://github.com/jbaylina)
+* **Eduardo Antuña Díez** - *Dockerize and improvements* - [eduadiez](https://github.com/eduadiez)
 
 See also the list of [contributors](https://github.com/dappnode/DNP_ETHFORWARD/contributors) who participated in this project.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
+This project is licensed under the GPLv3 License - see the [LICENSE](LICENSE) file for details
 
 ## References
 
@@ -109,4 +113,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 [IPFS](https://ipfs.io/)
 
-[infura](https://infura.io/)
+[ethforward](https://github.com/jbaylina/ethforward)
+

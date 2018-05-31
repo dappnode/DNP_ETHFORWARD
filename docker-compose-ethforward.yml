@@ -5,7 +5,7 @@ networks:
         driver: bridge
         ipam:
             config:
-                - subnet: 172.33.0.0/1
+                - subnet: 172.33.0.0/16
 
 services:
   ethforward.dnp.dappnode.eth:
