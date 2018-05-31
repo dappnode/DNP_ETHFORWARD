@@ -1,0 +1,21 @@
+{
+  "name": "ethforward",
+  "version": "0.1.0",
+  "description": "Dappnode package responsible for providing .eth address resolve through ENS ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jordi Baylina",
+  "contributors": [
+    "Eduardo Antuña <eduadiez@gmail.com> (https://github.com/eduadiez)"
+  ],
+  "license": "GPL-3.0",
+  "dependencies": {
+    "bs58": "^4.0.1",
+    "dotenv": "^5.0.1",
+    "http-proxy": "^1.17.0",
+    "web3": "^1.0.0-beta.34",
+    "websocket": "^1.0.26"
+  }
+}
