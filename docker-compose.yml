@@ -1,0 +1,11 @@
+version: '3.4'
+  
+services:
+  ethforward.dnp.dappnode.eth:
+    build: ./build
+    image: ethforward.dnp.dappnode.eth
+    container_name: DAppNodeCore-ethforward.dnp.dappnode.eth
+    dns: 172.33.1.2
+    ports:
+      - 8888:80
+
