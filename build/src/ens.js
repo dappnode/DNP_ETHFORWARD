@@ -1,4 +1,5 @@
 const Web3 = require('web3');
+const multihash = require('multihashes')
 
 const ensAddr = '0x314159265dd8dbb310642f98f50c066173c1259b'
 const ensAbi = [{ "constant": true, "inputs": [{ "name": "node", "type": "bytes32" }], "name": "resolver", "outputs": [{ "name": "", "type": "address" }], "payable": false, "type": "function" }, { "constant": true, "inputs": [{ "name": "node", "type": "bytes32" }], "name": "owner", "outputs": [{ "name": "", "type": "address" }], "payable": false, "type": "function" }, { "constant": false, "inputs": [{ "name": "node", "type": "bytes32" }, { "name": "label", "type": "bytes32" }, { "name": "owner", "type": "address" }], "name": "setSubnodeOwner", "outputs": [], "payable": false, "type": "function" }, { "constant": false, "inputs": [{ "name": "node", "type": "bytes32" }, { "name": "ttl", "type": "uint64" }], "name": "setTTL", "outputs": [], "payable": false, "type": "function" }, { "constant": true, "inputs": [{ "name": "node", "type": "bytes32" }], "name": "ttl", "outputs": [{ "name": "", "type": "uint64" }], "payable": false, "type": "function" }, { "constant": false, "inputs": [{ "name": "node", "type": "bytes32" }, { "name": "resolver", "type": "address" }], "name": "setResolver", "outputs": [], "payable": false, "type": "function" }, { "constant": false, "inputs": [{ "name": "node", "type": "bytes32" }, { "name": "owner", "type": "address" }], "name": "setOwner", "outputs": [], "payable": false, "type": "function" }, { "anonymous": false, "inputs": [{ "indexed": true, "name": "node", "type": "bytes32" }, { "indexed": false, "name": "owner", "type": "address" }], "name": "Transfer", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "name": "node", "type": "bytes32" }, { "indexed": true, "name": "label", "type": "bytes32" }, { "indexed": false, "name": "owner", "type": "address" }], "name": "NewOwner", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "name": "node", "type": "bytes32" }, { "indexed": false, "name": "resolver", "type": "address" }], "name": "NewResolver", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "name": "node", "type": "bytes32" }, { "indexed": false, "name": "ttl", "type": "uint64" }], "name": "NewTTL", "type": "event" }];
@@ -25,6 +26,19 @@ function namehash(name) {
     return node.toString();
 }
 
+function decodeContentHash(contentHash) {
+    if (contentHash['0'] === '0x0000000000000000000000000000000000000000000000000000000000000000') {
+        return
+    }
+    if (contentHash.ret !== '0x') {
+        const hex = contentHash['0'].substring(2)
+        const buf = multihash.fromHexString(hex)
+        return multihash.toB58String(multihash.encode(buf, 'sha2-256'))
+    } else {
+        return
+    }
+}
+
 exports.getContent = async (name) => {
 
     const node = namehash(name);
@@ -39,12 +53,14 @@ exports.getContent = async (name) => {
             return "0x404";
         }
         const resolver = new web3.eth.Contract(resolverAbi, resolverAddress);
-        const content = await resolver.methods.text(node, "dnslink").call();
+        const dnslink = await resolver.methods.text(node, "dnslink").call();
 
-        if (content.startsWith('/ipfs/Qm')) {
-            return content;
+        if (dnslink.startsWith('/ipfs/')) {
+            return dnslink;
         } else {
-            return "0x404";
+            const content = await resolver.methods.content(node).call();
+            const contentDecoded = decodeContentHash(content)    
+            return contentDecoded || "0x404"
         }
     } catch (e) {
         console.log(e.message)
