@@ -12,7 +12,7 @@
 
 Dappnode package responsible for providing .eth address resolve through ENS
 
-It is an AragonApp whose repo is deployed at this address: [0x294888d97308d7ce3445d83d90268b29282863f7](https://etherscan.io/address/0x294888d97308d7ce3445d83d90268b29282863f7) and whose ENS address is: [ethforward.dnp.dappnode.eth](https://etherscan.io/enslookup?q=ethforward.dnp.dappnode.eth])
+It is an AragonApp whose repo is deployed at this address: [0x294888d97308d7ce3445d83d90268b29282863f7](https://etherscan.io/address/0x294888d97308d7ce3445d83d90268b29282863f7) and whose ENS address is: [ethforward.dnp.dappnode.eth](https://etherscan.io/enslookup?q=ethforward.dnp.dappnode.eth)
 
 
 ## Getting Started
