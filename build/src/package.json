@@ -4,7 +4,7 @@
   "description": "Dappnode package responsible for providing .eth address resolve through ENS ",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "TEST=true WEB3HOSTWS=wss://mainnet.infura.io/ws mocha \"./{,!(node_modules)/**/}*.test.js\""
   },
   "author": "Jordi Baylina",
   "contributors": [
@@ -15,7 +15,11 @@
     "bs58": "^4.0.1",
     "dotenv": "^5.0.1",
     "http-proxy": "^1.17.0",
+    "multihashes": "^0.4.14",
     "web3": "^1.0.0-beta.34",
     "websocket": "^1.0.26"
+  },
+  "devDependencies": {
+    "mocha": "^5.2.0"
   }
 }
