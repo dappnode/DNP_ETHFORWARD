@@ -1,13 +1,13 @@
 {
   "name": "ethforward.dnp.dappnode.eth",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Dappnode package responsible for providing .eth address resolve through ENS",
   "avatar": "/ipfs/QmX2VK8wUfUfXetnCbYqhR6hwLV8W6XLcxRBRFWZhNq1tN",
   "type": "dncore",
   "image": {
-    "path": "ethforward.dnp.dappnode.eth_0.1.1.tar.xz",
-    "hash": "/ipfs/QmWAKmxEhUEwFV9WQsqn28vMfUiTo4znPURQPK7n4JQWuJ",
-    "size": 17184946,
+    "path": "",
+    "hash": "",
+    "size": "",
     "restart": "always",
     "subnet": "172.33.0.0/16",
     "ipv4_address": "172.33.1.3"
