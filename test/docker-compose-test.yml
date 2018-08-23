@@ -7,8 +7,8 @@ services:
     container_name: Test
     dns: 172.33.1.2
     networks:
-      - test-build_network
+      - test_build_network
 
 networks:
-  test-build_network:
+  test_build_network:
     external: true

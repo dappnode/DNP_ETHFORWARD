@@ -6,7 +6,7 @@
 ##############
 
 mkdir test-build
-DAPPNODE_DIR="./test-build"
+DAPPNODE_DIR="./test_build"
 
 export BIND_VERSION="0.1.5"
 BIND_URL="https://github.com/dappnode/DNP_BIND/releases/download/v${BIND_VERSION}/bind.dnp.dappnode.eth_${BIND_VERSION}.tar.xz"
