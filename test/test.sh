@@ -30,8 +30,8 @@ docker load -i $BIND_FILE
 docker load -i $IPFS_FILE
 
 # Delete build line frome yml
-sed -i '.bak' '/build: \.\/build/d' $BIND_YML_FILE
-sed -i '.bak' '/build: \.\/build/d' $IPFS_YML_FILE
+sed -i '/build: \.\/build/d' $BIND_YML_FILE
+sed -i '/build: \.\/build/d' $IPFS_YML_FILE
 
 # Start bind and ipfs
 docker-compose -f $BIND_YML_FILE up -d
