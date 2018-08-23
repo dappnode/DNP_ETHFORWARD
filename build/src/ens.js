@@ -8,6 +8,7 @@ const ENS_PublicResolverAbi = [{"constant":true,"inputs":[{"name":"interfaceID",
 const WEB3HOSTWS = process.env.WEB3HOSTWS || "ws://my.ethchain.dnp.dappnode.eth:8546";
 
 var web3 = new Web3(WEB3HOSTWS);
+console.log('Connected web3 to '+WEB3HOSTWS)
 
 setInterval(function() {
     web3.eth.net.isListening().then().catch(e => {

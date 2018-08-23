@@ -6,7 +6,8 @@ const httpProxy = require('http-proxy');
 const responseUnsynced = 'unsynced.html'
 const response404 = '404.html'
 const fs = require('fs');
-const IPFS_REDIRECT = "http://my.ipfs.dnp.dappnode.eth:8080";
+const IPFS_REDIRECT = process.env.IPFS_REDIRECT || "http://my.ipfs.dnp.dappnode.eth:8080";
+console.log('IPFS redirect set to: '+IPFS_REDIRECT)
 
 const proxy = httpProxy.createProxyServer({});
 
@@ -22,7 +23,7 @@ http.createServer(async (req, res) => {
         fs.createReadStream(responseUnsynced).pipe(res)
     } else {
         const url = IPFS_REDIRECT + content;
-        console.log(url);
+        console.log('PROXYING URL: '+url);
         proxy.web(req, res, {
             target: url,
         });
