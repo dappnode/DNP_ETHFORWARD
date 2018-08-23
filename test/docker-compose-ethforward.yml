@@ -16,7 +16,7 @@ services:
     dns: 172.33.1.2
     environment:
       - IPFS_REDIRECT=http://172.33.1.5:8080
-      - WEB3HOSTWS=wss://mainnet.infura.io/ws
+      - WEB3HOSTWS=wss://mainnet.infura.io/_ws
     networks:
       network:
         ipv4_address: 172.33.1.3

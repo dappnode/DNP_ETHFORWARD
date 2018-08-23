@@ -46,11 +46,12 @@ cp -r test/* $DAPPNODE_DIR
 docker-compose -f ${DAPPNODE_DIR}/docker-compose-ethforward.yml build
 docker-compose -f ${DAPPNODE_DIR}/docker-compose-ethforward.yml up -d
 
-sleep 30
+sleep 60
 docker logs DAppNodeCore-ethforward.dnp.dappnode.eth
 
 docker-compose -f ${DAPPNODE_DIR}/docker-compose-test.yml build
 docker network ls
+docker ps -a
 docker-compose -f ${DAPPNODE_DIR}/docker-compose-test.yml run test
 
 docker logs DAppNodeCore-ethforward.dnp.dappnode.eth
