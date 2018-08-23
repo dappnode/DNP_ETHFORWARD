@@ -15,7 +15,7 @@ services:
     restart: always
     dns: 172.33.1.2
     environment:
-      - IPFS_REDIRECT=https://ipfs.io
+      - IPFS_REDIRECT=http://172.33.1.5:8080
       - WEB3HOSTWS=wss://mainnet.infura.io/ws
     networks:
       network:
