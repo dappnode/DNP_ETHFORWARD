@@ -5,8 +5,8 @@
 # Install bind
 ##############
 
-mkdir test-build
-DAPPNODE_DIR="./test_build"
+DAPPNODE_DIR="test_build"
+mkdir $DAPPNODE_DIR
 
 export BIND_VERSION="0.1.5"
 BIND_URL="https://github.com/dappnode/DNP_BIND/releases/download/v${BIND_VERSION}/bind.dnp.dappnode.eth_${BIND_VERSION}.tar.xz"
@@ -20,7 +20,8 @@ wget -O $BIND_YML_FILE $BIND_YML
 docker load -i $BIND_FILE
 
 # Delete build line frome yml
-sed -i '/build: \.\/build/d' $BIND_YML_FILE
+sed -i '.bak' '/build: \.\/build/d' $BIND_YML_FILE
+cat $BIND_YML_FILE
 
 # Start bind
 docker-compose -f $BIND_YML_FILE up -d
