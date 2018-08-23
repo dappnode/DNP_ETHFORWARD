@@ -5,13 +5,14 @@
 # Install bind
 ##############
 
-DAPPNODE_DIR="./"
+mkdir test-build
+DAPPNODE_DIR="./test-build"
 
 export BIND_VERSION="0.1.5"
 BIND_URL="https://github.com/dappnode/DNP_BIND/releases/download/v${BIND_VERSION}/bind.dnp.dappnode.eth_${BIND_VERSION}.tar.xz"
 BIND_YML="https://github.com/dappnode/DNP_BIND/releases/download/v${BIND_VERSION}/docker-compose-bind.yml"
-BIND_YML_FILE="${DAPPNODE_CORE_DIR}docker-compose-bind.yml"
-BIND_FILE="${DAPPNODE_CORE_DIR}bind.dnp.dappnode.eth_${BIND_VERSION}.tar.xz"
+BIND_YML_FILE="${DAPPNODE_DIR}/docker-compose-bind.yml"
+BIND_FILE="${DAPPNODE_DIR}/bind.dnp.dappnode.eth_${BIND_VERSION}.tar.xz"
 
 wget -O $BIND_FILE $BIND_URL
 wget -O $BIND_YML_FILE $BIND_YML
@@ -22,23 +23,21 @@ docker load -i $BIND_FILE
 sed -i '/build: \.\/build/d' $BIND_FILE
 
 # Start bind
-cp ${BIND_YML_FILE} test-build
-docker-compose -f test-build/${BIND_YML_FILE} up -d
+docker-compose -f $BIND_YML_FILE up -d
 
 # Prepare test
 ##############
 
-mkdir test-build
-cp -r build test-build
-cp -r test/* test-build
+cp -r build $DAPPNODE_DIR
+cp -r test/* $DAPPNODE_DIR
 
-docker-compose -f test-build/docker-compose-ethforward.yml build
-docker-compose -f test-build/docker-compose-ethforward.yml up -d
+docker-compose -f ${DAPPNODE_DIR}/docker-compose-ethforward.yml build
+docker-compose -f ${DAPPNODE_DIR}/docker-compose-ethforward.yml up -d
 
 sleep 5
 docker logs DAppNodeCore-ethforward.dnp.dappnode.eth
 
-docker-compose -f test-build/docker-compose-test.yml build
-docker-compose -f test-build/docker-compose-test.yml run test
+docker-compose -f ${DAPPNODE_DIR}/docker-compose-test.yml build
+docker-compose -f ${DAPPNODE_DIR}/docker-compose-test.yml run test
 
 docker logs DAppNodeCore-ethforward.dnp.dappnode.eth
