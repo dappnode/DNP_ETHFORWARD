@@ -5,7 +5,7 @@
 # Install bind
 ##############
 
-DAPPNODE_DIR="test_build"
+DAPPNODE_DIR="testbuild"
 mkdir $DAPPNODE_DIR
 
 export BIND_VERSION="0.1.5"
@@ -20,7 +20,7 @@ wget -O $BIND_YML_FILE $BIND_YML
 docker load -i $BIND_FILE
 
 # Delete build line frome yml
-sed -i '.bak' '/build: \.\/build/d' $BIND_YML_FILE
+sed -i '/build: \.\/build/d' $BIND_YML_FILE
 cat $BIND_YML_FILE
 
 # Start bind
