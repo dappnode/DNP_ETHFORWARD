@@ -20,7 +20,7 @@ wget -O $BIND_YML_FILE $BIND_YML
 docker load -i $BIND_FILE
 
 # Delete build line frome yml
-sed -i '/build: \.\/build/d' $BIND_FILE
+sed -i '/build: \.\/build/d' $BIND_YML_FILE
 
 # Start bind
 docker-compose -f $BIND_YML_FILE up -d
@@ -38,6 +38,7 @@ sleep 5
 docker logs DAppNodeCore-ethforward.dnp.dappnode.eth
 
 docker-compose -f ${DAPPNODE_DIR}/docker-compose-test.yml build
+docker network ls
 docker-compose -f ${DAPPNODE_DIR}/docker-compose-test.yml run test
 
 docker logs DAppNodeCore-ethforward.dnp.dappnode.eth
