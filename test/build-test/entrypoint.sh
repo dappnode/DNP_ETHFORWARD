@@ -16,12 +16,36 @@ check_domain()
 echo " "
 echo " Resolving decentral.eth"
 echo " "
-curl --verbose http://decentral.eth/
+
+RES=$(curl "http://decentral.eth/")
+echo "${RES}" | awk '/<title>Decentralized Portal</title>/{exit 0} !/<title>Decentralized Portal</title>/{exit 1}' ;
+    if [ "$?" = "0" ]
+    then
+        echo "Result contains expected string"
+    else
+        echo "Result DOES NOT contain expected string"
+        echo "Expected HTML containing <title>Decentralized Portal</title>"
+        echo "Received:  ${FILE}"
+        exit 1
+    fi
+fi
 
 echo " "
-echo " Resolving decentral2.eth"
+echo " Resolving decentralFake.eth"
 echo " "
-curl --verbose http://decentral2.eth/
+
+RES=$(curl "http://decentralFake.eth/")
+echo "${RES}" | awk '/<title>Decentralized Portal</title>/{exit 0} !/<title>Decentralized Portal</title>/{exit 1}' ;
+    if [ "$?" = "0" ]
+    then
+        echo "Result contains expected string"
+    else
+        echo "Result DOES NOT contain expected string"
+        echo "Expected HTML containing <title>Decentralized Portal</title>"
+        echo "Received:  ${FILE}"
+        exit 1
+    fi
+fi
 
 
 # check_domain my.ethchain.dnp.dappnode.eth 172.33.1.6
