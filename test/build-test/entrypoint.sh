@@ -16,27 +16,5 @@ else
     exit 1
 fi
 
-echo " "
-echo " Resolving decentralFake.eth"
-echo " "
-
-RES2=$(curl "http://decentralFake.eth/")
-
-echo "${RES2}" | awk '/<title>Page/{exit 0} !/<title>Page/{exit 1}' ;
-if [ "$?" = "0" ]
-then
-    echo "Result contains expected string"
-else
-    echo "Result DOES NOT contain expected string"
-    echo "Expected HTML containing <title>Page Not Found</title>"
-    echo "Received:  ${RES2}"
-    exit 1
-fi
-
-# check_domain my.ethchain.dnp.dappnode.eth 172.33.1.6
-# check_domain ethchain.dappnode.eth 172.33.1.3
-# check_domain ethchain.eth 172.33.1.3
-# This one currently fails, should not
-# check_domain ethchain.dnp.dappnode.eth 172.33.1.3
 
 
