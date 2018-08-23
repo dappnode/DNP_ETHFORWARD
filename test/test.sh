@@ -19,7 +19,7 @@ wget -O $BIND_YML_FILE $BIND_YML
 docker load -i $BIND_FILE
 
 # Delete build line frome yml
-sed -i '/build: \.\/build/d' $DAPPNODE_CORE_DIR/*.yml
+sed -i '/build: \.\/build/d' $BIND_FILE
 
 # Start bind
 cp ${BIND_YML_FILE} test-build
