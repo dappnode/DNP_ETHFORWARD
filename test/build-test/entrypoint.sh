@@ -22,7 +22,7 @@ echo " "
 
 RES2=$(curl "http://decentralFake.eth/")
 
-echo "${RES2}" | awk '/<title>Page\sNot\sFound</title>/{exit 0} !/<title>Page\sNot\sFound</title>/{exit 1}' ;
+echo "${RES2}" | awk '/<title>Page/{exit 0} !/<title>Page/{exit 1}' ;
 if [ "$?" = "0" ]
 then
     echo "Result contains expected string"
