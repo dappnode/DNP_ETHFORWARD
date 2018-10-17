@@ -1,7 +1,7 @@
 FROM node:8.9.4-alpine as build
 
 # Create app directory
-WORKDIR /usr/src/app
+WORKDIR /opt/app
 
 RUN apk update && \
     apk add git python make g++ && \
@@ -14,7 +14,7 @@ RUN npm install --production
 # This results in a single layer image
 FROM alpine
 
-WORKDIR /usr/src/app
+WORKDIR /opt/app
 
 RUN apk add --no-cache libstdc++ && \
     ALPINE_GLIBC_BASE_URL="https://github.com/sgerrand/alpine-pkg-glibc/releases/download" && \
@@ -49,6 +49,6 @@ RUN apk add --no-cache libstdc++ && \
         "$ALPINE_GLIBC_I18N_PACKAGE_FILENAME"
 
 COPY --from=build /usr/local/bin/node /usr/local/bin/node
-COPY --from=build /usr/src/app /usr/src/app
+COPY --from=build /opt/app /opt/app
 
 ENTRYPOINT node index.js
