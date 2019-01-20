@@ -2,17 +2,18 @@ sudo: required
 
 jobs:
   include:
-    # In app tests
-    ##############
-    - stage: test
-      services:
-        - docker
-      env:
-        - INTEGRATION_TEST
-      before_install:
-        - chmod +x test/test.sh
+     - stage: test
+      node_js:
+        - "8.9.4"
+      cache:
+        directories:
+          - build/src/node_modules
+      install:
+        # This is a dockerized application, the node app is in /build/src
+        - cd ./build/src
+        - npm install
       script:
-        - test/test.sh
+        - npm test
 
     # Test that it builds correctly
     ###############################
