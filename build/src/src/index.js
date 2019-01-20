@@ -1,13 +1,20 @@
 require('dotenv').config()
-
 const http = require('http');
 const ens = require('./ens');
 const httpProxy = require('http-proxy');
+const fs = require('fs');
+
+// Define params
+
 const responseUnsynced = 'unsynced.html'
 const response404 = '404.html'
-const fs = require('fs');
 const IPFS_REDIRECT = process.env.IPFS_REDIRECT || "http://my.ipfs.dnp.dappnode.eth:8080";
-console.log('IPFS redirect set to: '+IPFS_REDIRECT)
+const port = process.env.DEV_PORT || 80
+
+// Start server
+
+console.log(`IPFS redirect set to: ${IPFS_REDIRECT}`)
+console.log(`Http server listening at port: ${port}`)
 
 const proxy = httpProxy.createProxyServer({});
 
@@ -23,9 +30,9 @@ http.createServer(async (req, res) => {
         fs.createReadStream(responseUnsynced).pipe(res)
     } else {
         const url = IPFS_REDIRECT + content;
-        console.log('PROXYING URL: '+url);
+        console.log(`Proxying url: ${url}`);
         proxy.web(req, res, {
             target: url,
         });
     }
-}).listen(80);
+}).listen(port);
