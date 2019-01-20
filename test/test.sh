@@ -53,3 +53,10 @@ docker-compose -f ${DAPPNODE_DIR}/docker-compose-test.yml build
 docker network ls
 docker ps -a
 docker-compose -f ${DAPPNODE_DIR}/docker-compose-test.yml run test
+
+# Clean test artifacts
+docker-compose -f $BIND_YML_FILE down --rmi --volumes --timeout 0
+docker-compose -f $IPFS_YML_FILE down --rmi --volumes --timeout 0
+docker-compose -f ${DAPPNODE_DIR}/docker-compose-ethforward.yml down --rmi --volumes --timeout 0
+docker-compose -f ${DAPPNODE_DIR}/docker-compose-test.yml down --rmi --volumes --timeout 0
+rm -rf $DAPPNODE_DIR
