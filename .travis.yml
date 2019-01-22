@@ -23,7 +23,6 @@ jobs:
         - npm install
       script:
         - npm test
-
     # Test that it builds correctly
     ###############################
     - stage: build-test
