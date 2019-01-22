@@ -51,4 +51,4 @@ RUN apk add --no-cache libstdc++ && \
 COPY --from=build /usr/local/bin/node /usr/local/bin/node
 COPY --from=build /usr/src/app /usr/src/app
 
-ENTRYPOINT node index.js
+ENTRYPOINT node /usr/src/app/src/index.js
