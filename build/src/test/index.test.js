@@ -10,7 +10,7 @@ require('../src/index')
 describe('main integration test. Curl the http server', () => {
     it('should return a valid content', (done) => {
         const options = {
-            url: 'htts://decentral.eth/',
+            url: 'http://decentral.eth/',
             proxy: `http://localhost:${process.env.DEV_PORT}`
         };
         request(options, function (_, _, body) {

@@ -29,5 +29,11 @@ describe('ens', () => {
         const content = await ens.getContent('portalnetwork.eth');
         assert.equal(content, '/ipfs/QmSpuwejUGjREmgsvm8eq3ZdsS7mVTHCRPZmLiUq84S9x8');
     }).timeout(timeout);
+
+    it('should return the IPFS hash of eduadiez.eth', async () => {
+        const content = await ens.getContent('eduadiez.eth');
+        assert.equal(content, '/ipfs/QmYCMDy9fCwbxQ1sHtUG318AMunHGcfUGeuAKYvHvGyEd4');
+    }).timeout(timeout);
+
   })
 });
