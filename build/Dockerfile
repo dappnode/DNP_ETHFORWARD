@@ -4,12 +4,12 @@ FROM node:8.9.4-alpine as build
 WORKDIR /usr/src/app
 
 RUN apk update && \
-    apk add git python make g++ && \
+    apk add git python make g++ curl && \
     rm -rf /var/cache/apk/*
 
 COPY src .
 
-RUN npm install --production
+RUN npm install --production --unsafe-perm
 
 # This results in a single layer image
 FROM alpine

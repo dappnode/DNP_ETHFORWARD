@@ -6,8 +6,8 @@ const fs = require('fs');
 
 // Define params
 
-const responseUnsynced = 'unsynced.html'
-const response404 = '404.html'
+const responseUnsynced = './unsynced.html'
+const response404 = './404.html'
 const IPFS_REDIRECT = process.env.IPFS_REDIRECT || "http://my.ipfs.dnp.dappnode.eth:8080";
 const port = process.env.DEV_PORT || 80
 
