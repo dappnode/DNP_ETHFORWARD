@@ -3,6 +3,7 @@ dist: trusty
 sudo: required
 
 stages:
+  - test
   - name: build-test
     if: tag != "release"
   - name: release
@@ -10,6 +11,18 @@ stages:
 
 jobs:
   include:
+    - stage: test
+      node_js:
+        - "8.9.4"
+      cache:
+        directories:
+          - build/src/node_modules
+      install:
+        # This is a dockerized application, the node app is in /build/src
+        - cd ./build/src
+        - npm install
+      script:
+        - npm test
     # Test that it builds correctly
     ###############################
     - stage: build-test

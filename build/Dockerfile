@@ -4,12 +4,12 @@ FROM node:8.9.4-alpine as build
 WORKDIR /usr/src/app
 
 RUN apk update && \
-    apk add git python make g++ && \
+    apk add git python make g++ curl && \
     rm -rf /var/cache/apk/*
 
 COPY src .
 
-RUN npm install --production
+RUN npm install --production --unsafe-perm
 
 # This results in a single layer image
 FROM alpine
@@ -51,4 +51,4 @@ RUN apk add --no-cache libstdc++ && \
 COPY --from=build /usr/local/bin/node /usr/local/bin/node
 COPY --from=build /usr/src/app /usr/src/app
 
-ENTRYPOINT node index.js
+ENTRYPOINT node /usr/src/app/src/index.js
