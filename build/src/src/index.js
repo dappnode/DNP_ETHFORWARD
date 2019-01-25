@@ -3,11 +3,12 @@ const http = require('http');
 const ens = require('./ens');
 const httpProxy = require('http-proxy');
 const fs = require('fs');
+const path = require('path');
 
 // Define params
 
-const responseUnsynced = './unsynced.html'
-const response404 = './404.html'
+const responseUnsynced = path.join(__dirname,'unsynced.html');
+const response404 = path.join(__dirname,'404.html');
 const IPFS_REDIRECT = process.env.IPFS_REDIRECT || "http://my.ipfs.dnp.dappnode.eth:8080";
 const port = process.env.DEV_PORT || 80
 
