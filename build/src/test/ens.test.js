@@ -30,9 +30,9 @@ describe('ens', () => {
         assert.equal(content, '/ipfs/QmSpuwejUGjREmgsvm8eq3ZdsS7mVTHCRPZmLiUq84S9x8');
     }).timeout(timeout);
 
-    it('should return the IPFS hash of eduadiez.eth', async () => {
-        const content = await ens.getContent('eduadiez.eth');
-        assert.equal(content, '/ipfs/QmYCMDy9fCwbxQ1sHtUG318AMunHGcfUGeuAKYvHvGyEd4');
+    it('should return the IPFS hash of eth2dai.eduadiez.eth', async () => {
+        const content = await ens.getContent('eth2dai.eduadiez.eth');
+        assert.equal(content, '/ipfs/QmZoHo1wi4G9VHX6xLmMBRdFpdHMkHnsqVXqV6Vsng9m8j');
     }).timeout(timeout);
 
   })
