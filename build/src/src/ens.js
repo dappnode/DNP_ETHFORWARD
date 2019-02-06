@@ -1,4 +1,5 @@
 const Web3 = require('web3');
+const CID = require('cids');
 const multihash = require('multihashes');
 const multicodec = require('multicodec');
 
@@ -77,8 +78,12 @@ exports.getContent = async (name) => {
                 if(contenthash !== '0x'){
                     const contentHashEncoded = Buffer.from(contenthash.slice(2),'hex');
                     console.log('content codec: ' + multicodec.getCodec(contentHashEncoded))
-                    content = multicodec.getCodec(contentHashEncoded).startsWith('ipfs') ?  '/ipfs/' + multicodec.rmPrefix(contentHashEncoded) : null
-                    console.log('content decoded: ' + content)
+                    let value = multicodec.getCodec(contentHashEncoded).startsWith('ipfs') ? multicodec.rmPrefix(contentHashEncoded) : null
+                    if(value){
+                        let cid = new CID(value);	
+                        content = '/ipfs/' + multihash.toB58String(cid.multihash)
+                        console.log('content decoded: ' + content)
+                    }
                     break
                 }
             /* this part is deprecated, it is maintained to preserve compatibility */
