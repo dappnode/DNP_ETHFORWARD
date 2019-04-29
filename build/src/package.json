@@ -4,7 +4,6 @@
   "description": "Dappnode package responsible for providing .eth address resolve through ENS ",
   "main": "src/index.js",
   "scripts": {
-    "postinstall": "curl -X GET https://raw.githubusercontent.com/multiformats/multicodec/master/table.csv | python ./node_modules/multicodec/tools/update-table.py",
     "test": "TEST=true WEB3HOSTWS=wss://mainnet.infura.io/ws mocha --exit \"./{,!(node_modules)/**/}*.test.js\""
   },
   "author": "Jordi Baylina",
@@ -17,7 +16,7 @@
     "cids": "^0.5.7",
     "dotenv": "^5.0.1",
     "http-proxy": "^1.17.0",
-    "multicodec": "^0.4.0",
+    "multicodec": "^0.5.1",
     "multihashes": "^0.4.14",
     "web3": "^1.0.0-beta.37",
     "websocket": "^1.0.28"
