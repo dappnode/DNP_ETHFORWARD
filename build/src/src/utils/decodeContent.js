@@ -7,6 +7,10 @@ const multihash = require("multihashes");
  * @returns {string|null} content
  */
 function decodeContent(contentEncoded) {
+  if (!contentEncoded) throw Error("contentEncoded must be defined");
+  if (typeof contentEncoded !== "string")
+    throw Error("contentEncoded must be a string");
+
   if (contentEncoded === "0x" || parseInt(contentEncoded) === 0) return;
 
   const hex = contentEncoded.substring(2);

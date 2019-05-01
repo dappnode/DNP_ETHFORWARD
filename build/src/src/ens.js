@@ -1,4 +1,4 @@
-const Web3 = require("web3");
+const Eth = require("ethjs");
 const decodeContent = require("./utils/decodeContent");
 const decodeContentHash = require("./utils/decodeContentHash");
 const computeNode = require("./utils/computeNode");
@@ -11,8 +11,8 @@ const ensAddr = "0x314159265dd8dbb310642f98f50c066173c1259b";
 const ensAbi = require("./abi/ens.json");
 const resolverAbi = require("./abi/resolverAbi.json");
 
-const WEB3HOSTWS =
-  process.env.WEB3HOSTWS || "http://my.ethchain.dnp.dappnode.eth:8545";
+const ethProvider =
+  process.env.WEB3HOSTHTTP || "http://my.ethchain.dnp.dappnode.eth:8545";
 
 const TEXT_INTERFACE_ID = "0x59d1d43c";
 const CONTENTHASH_INTERFACE_ID = "0xbc1c58d1";
@@ -23,11 +23,12 @@ const interfaces = [
   CONTENT_INTERFACE_ID
 ];
 
-const web3 = new Web3(WEB3HOSTWS);
-console.log("Connected web3 to " + WEB3HOSTWS);
+const eth = new Eth(new Eth.HttpProvider(ethProvider));
+console.log("Connected web3 to " + ethProvider);
 
 // Cache ENS contract instance
-const ens = new web3.eth.Contract(ensAbi, ensAddr);
+const ens = eth.contract(ensAbi).at(ensAddr);
+const Resolver = eth.contract(resolverAbi);
 
 /**
  * Resolves a request for an ENS domain iterating over various methods
@@ -45,19 +46,19 @@ async function getContent(name) {
     if (!(await isListening())) throw Error("Network is not listening");
 
     const node = computeNode(name);
-    const resolverAddress = await ens.methods.resolver(node).call();
+    const resolverAddress = await ens.resolver(node).then(res => res[0]);
     if (parseInt(resolverAddress) === 0) return "0x404";
 
-    const resolver = new web3.eth.Contract(resolverAbi, resolverAddress);
+    const resolver = Resolver.at(resolverAddress);
     const interfacesAvailable = await getInterfacesAvailable(resolver);
 
     /**
      * `contentHash` method
      */
     if (interfacesAvailable[CONTENTHASH_INTERFACE_ID]) {
-      const contentHashEncoded = await resolver.methods
+      const contentHashEncoded = await resolver
         .contenthash(node)
-        .call();
+        .then(res => res[0]);
       const content = decodeContentHash(contentHashEncoded);
       if (content) return content;
     }
@@ -67,7 +68,7 @@ async function getContent(name) {
      * This method is deprecated, but it is preserved for compatibility
      */
     if (interfacesAvailable[TEXT_INTERFACE_ID]) {
-      const content = await resolver.methods.text(node, "dnslink").call();
+      const content = await resolver.text(node, "dnslink").then(res => res[0]);
       if ((content || "").startsWith("/ipfs/")) return content;
     }
 
@@ -75,14 +76,14 @@ async function getContent(name) {
      * `content` method
      */
     if (interfacesAvailable[CONTENT_INTERFACE_ID]) {
-      const contentEncoded = await resolver.methods.content(node).call();
+      const contentEncoded = await resolver.content(node).then(res => res[0]);
       const content = decodeContent(contentEncoded);
       if (content) return content;
     }
 
     return "0x404";
   } catch (e) {
-    console.log(e.message);
+    console.error(e.stack);
     return "0x";
   }
 }
@@ -92,7 +93,7 @@ async function getContent(name) {
 /**
  * Iterates over various interfaces to check if they are available
  *
- * @param {object} resolver Web3 contract instance
+ * @param {object} resolver ethjs contract instance
  * @returns {object} interfacesAvailable = {
  *   TEXT_INTERFACE_ID: true,
  *   CONTENTHASH_INTERFACE_ID: false,
@@ -102,9 +103,9 @@ async function getInterfacesAvailable(resolver) {
   const interfacesAvailable = {};
   await Promise.all(
     interfaces.map(async interface => {
-      interfacesAvailable[interface] = await resolver.methods
+      interfacesAvailable[interface] = await resolver
         .supportsInterface(interface)
-        .call();
+        .then(res => res[0]);
     })
   );
   return interfacesAvailable;
@@ -116,7 +117,7 @@ async function getInterfacesAvailable(resolver) {
  * @returns {bool} isListening
  */
 function isListening() {
-  return web3.eth.net.isListening().then(() => true, () => false);
+  return eth.net_listening().then(() => true, () => false);
 }
 
 module.exports = { getContent };

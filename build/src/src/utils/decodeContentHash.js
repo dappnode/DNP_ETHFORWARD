@@ -9,6 +9,10 @@ const multicodec = require("multicodec");
  * @returns {string|null} content
  */
 function decodeContentHash(contenthash) {
+  if (!contenthash) throw Error("contenthash must be defined");
+  if (typeof contenthash !== "string")
+    throw Error("contenthash must be a string");
+
   if (contenthash === "0x") return null;
 
   const contentHashEncoded = Buffer.from(contenthash.slice(2), "hex");
