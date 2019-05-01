@@ -1,39 +1,33 @@
-const assert = require('assert');
-const ens = require('../src/ens')
+const assert = require("assert");
+const ens = require("../src/ens");
 
 /**
  * The purpose of this test is to make sure it retrieves the correct content
  * using the correct ENS access method
+ *
+ * [NOTE] tests are specified in the `endDomains` object = {
+ *   "domain-to-test": "expected content to be returned"
+ * }
  */
 
-const timeout = 10 * 1000
+const ensDomains = {
+  "decentral.eth": "/ipfs/QmXufxJH2a14QcWdvaHq3PMmFLK8xmCXoD68NVaxchSEVi",
+  "my.admin.dnp.dappnode.eth": "0x404",
+  "mycrypto.dappnode.eth":
+    "/ipfs/Qmdojo8KAsZu7XTkETYwSiZMCjdUa58YNZCUKmsZ21i8gV",
+  "portalnetwork.eth": "/ipfs/QmSpuwejUGjREmgsvm8eq3ZdsS7mVTHCRPZmLiUq84S9x8",
+  "eth2dai.eduadiez.eth": "/ipfs/QmZoHo1wi4G9VHX6xLmMBRdFpdHMkHnsqVXqV6Vsng9m8j"
+};
 
-describe('ens', () => {
-  describe('ens.getContent', () => {
-    it('should return the IPFS hash of decentral.eth', async () => {
-        const content = await ens.getContent('decentral.eth');
-        assert.equal(content, '/ipfs/QmXufxJH2a14QcWdvaHq3PMmFLK8xmCXoD68NVaxchSEVi');
-    }).timeout(timeout);
+const timeout = 10 * 1000;
 
-    it('should return the IPFS hash of my.admin.dnp.dappnode.eth', async () => {
-        const content = await ens.getContent('my.admin.dnp.dappnode.eth');
-        assert.equal(content, '0x404');
-    }).timeout(timeout);
-
-    it('should return the IPFS hash of mycrypto.dappnode.eth', async () => {
-        const content = await ens.getContent('mycrypto.dappnode.eth');
-        assert.equal(content, '/ipfs/Qmdojo8KAsZu7XTkETYwSiZMCjdUa58YNZCUKmsZ21i8gV');
-    }).timeout(timeout);
-
-    it('should return the IPFS hash of portalnetwork.eth', async () => {
-        const content = await ens.getContent('portalnetwork.eth');
-        assert.equal(content, '/ipfs/QmSpuwejUGjREmgsvm8eq3ZdsS7mVTHCRPZmLiUq84S9x8');
-    }).timeout(timeout);
-
-    it('should return the IPFS hash of eth2dai.eduadiez.eth', async () => {
-        const content = await ens.getContent('eth2dai.eduadiez.eth');
-        assert.equal(content, '/ipfs/QmZoHo1wi4G9VHX6xLmMBRdFpdHMkHnsqVXqV6Vsng9m8j');
-    }).timeout(timeout);
-
-  })
+describe("ens", () => {
+  describe("ens.getContent", () => {
+    for (const [domain, expectedContent] of Object.entries(ensDomains)) {
+      it(`should return the IPFS hash of ${domain}`, async () => {
+        const content = await ens.getContent(domain);
+        assert.equal(content, expectedContent, "Wrong content");
+      }).timeout(timeout);
+    }
+  });
 });
