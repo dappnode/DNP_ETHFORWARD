@@ -1,5 +1,11 @@
 FROM node:10.15.3-alpine as build
 
+###### NOTES - TODO REMOVE
+# - 92.3 MB - Original
+# - 71.8 MB - Using `apk add nodejs` instead of building it
+# - 57.6 MB - Removing unwanted depedencies + web3js
+# - 33.7 MB - Bundling the code with webpack
+
 # Create app directory
 WORKDIR /usr/src/app
 
@@ -7,48 +13,21 @@ RUN apk update && \
     apk add git python make g++ curl && \
     rm -rf /var/cache/apk/*
 
-COPY src .
+COPY package.json .
+COPY package-lock.json .
+RUN npm install --production
 
-RUN npm install --production --unsafe-perm
+RUN npm install -D webpack webpack-cli
+COPY src .
+RUN npm build
 
 # This results in a single layer image
 FROM alpine
 
 WORKDIR /usr/src/app
 
-RUN apk add --no-cache libstdc++ && \
-    ALPINE_GLIBC_BASE_URL="https://github.com/sgerrand/alpine-pkg-glibc/releases/download" && \
-    ALPINE_GLIBC_PACKAGE_VERSION="2.28-r0" && \
-    ALPINE_GLIBC_BASE_PACKAGE_FILENAME="glibc-$ALPINE_GLIBC_PACKAGE_VERSION.apk" && \
-    ALPINE_GLIBC_BIN_PACKAGE_FILENAME="glibc-bin-$ALPINE_GLIBC_PACKAGE_VERSION.apk" && \
-    ALPINE_GLIBC_I18N_PACKAGE_FILENAME="glibc-i18n-$ALPINE_GLIBC_PACKAGE_VERSION.apk" && \
-    apk add --no-cache --virtual=.build-dependencies wget ca-certificates && \
-    wget \
-    "https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub" \
-    -O "/etc/apk/keys/sgerrand.rsa.pub" && \
-    wget \
-    "$ALPINE_GLIBC_BASE_URL/$ALPINE_GLIBC_PACKAGE_VERSION/$ALPINE_GLIBC_BASE_PACKAGE_FILENAME" \
-    "$ALPINE_GLIBC_BASE_URL/$ALPINE_GLIBC_PACKAGE_VERSION/$ALPINE_GLIBC_BIN_PACKAGE_FILENAME" \
-    "$ALPINE_GLIBC_BASE_URL/$ALPINE_GLIBC_PACKAGE_VERSION/$ALPINE_GLIBC_I18N_PACKAGE_FILENAME" && \
-    apk add --no-cache \
-    "$ALPINE_GLIBC_BASE_PACKAGE_FILENAME" \
-    "$ALPINE_GLIBC_BIN_PACKAGE_FILENAME" \
-    "$ALPINE_GLIBC_I18N_PACKAGE_FILENAME" && \
-    \
-    rm "/etc/apk/keys/sgerrand.rsa.pub" && \
-    /usr/glibc-compat/bin/localedef --force --inputfile POSIX --charmap UTF-8 "$LANG" || true && \
-    echo "export LANG=$LANG" > /etc/profile.d/locale.sh && \
-    \
-    apk del glibc-i18n && \
-    \
-    rm "/root/.wget-hsts" && \
-    apk del .build-dependencies && \
-    rm \
-    "$ALPINE_GLIBC_BASE_PACKAGE_FILENAME" \
-    "$ALPINE_GLIBC_BIN_PACKAGE_FILENAME" \
-    "$ALPINE_GLIBC_I18N_PACKAGE_FILENAME"
+RUN apk add --update nodejs
 
-COPY --from=build /usr/local/bin/node /usr/local/bin/node
-COPY --from=build /usr/src/app /usr/src/app
+COPY --from=build /usr/src/app/bundle.js /usr/src/app
 
-ENTRYPOINT node /usr/src/app/src/index.js
+ENTRYPOINT node /usr/src/app/bundle.js
