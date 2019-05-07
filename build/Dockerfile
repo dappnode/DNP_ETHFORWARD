@@ -1,4 +1,4 @@
-FROM node:8.9.4-alpine as build
+FROM node:10.15.3-alpine as build
 
 # Create app directory
 WORKDIR /usr/src/app
@@ -24,16 +24,16 @@ RUN apk add --no-cache libstdc++ && \
     ALPINE_GLIBC_I18N_PACKAGE_FILENAME="glibc-i18n-$ALPINE_GLIBC_PACKAGE_VERSION.apk" && \
     apk add --no-cache --virtual=.build-dependencies wget ca-certificates && \
     wget \
-        "https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub" \
-        -O "/etc/apk/keys/sgerrand.rsa.pub" && \
+    "https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub" \
+    -O "/etc/apk/keys/sgerrand.rsa.pub" && \
     wget \
-        "$ALPINE_GLIBC_BASE_URL/$ALPINE_GLIBC_PACKAGE_VERSION/$ALPINE_GLIBC_BASE_PACKAGE_FILENAME" \
-        "$ALPINE_GLIBC_BASE_URL/$ALPINE_GLIBC_PACKAGE_VERSION/$ALPINE_GLIBC_BIN_PACKAGE_FILENAME" \
-        "$ALPINE_GLIBC_BASE_URL/$ALPINE_GLIBC_PACKAGE_VERSION/$ALPINE_GLIBC_I18N_PACKAGE_FILENAME" && \
+    "$ALPINE_GLIBC_BASE_URL/$ALPINE_GLIBC_PACKAGE_VERSION/$ALPINE_GLIBC_BASE_PACKAGE_FILENAME" \
+    "$ALPINE_GLIBC_BASE_URL/$ALPINE_GLIBC_PACKAGE_VERSION/$ALPINE_GLIBC_BIN_PACKAGE_FILENAME" \
+    "$ALPINE_GLIBC_BASE_URL/$ALPINE_GLIBC_PACKAGE_VERSION/$ALPINE_GLIBC_I18N_PACKAGE_FILENAME" && \
     apk add --no-cache \
-        "$ALPINE_GLIBC_BASE_PACKAGE_FILENAME" \
-        "$ALPINE_GLIBC_BIN_PACKAGE_FILENAME" \
-        "$ALPINE_GLIBC_I18N_PACKAGE_FILENAME" && \
+    "$ALPINE_GLIBC_BASE_PACKAGE_FILENAME" \
+    "$ALPINE_GLIBC_BIN_PACKAGE_FILENAME" \
+    "$ALPINE_GLIBC_I18N_PACKAGE_FILENAME" && \
     \
     rm "/etc/apk/keys/sgerrand.rsa.pub" && \
     /usr/glibc-compat/bin/localedef --force --inputfile POSIX --charmap UTF-8 "$LANG" || true && \
@@ -44,9 +44,9 @@ RUN apk add --no-cache libstdc++ && \
     rm "/root/.wget-hsts" && \
     apk del .build-dependencies && \
     rm \
-        "$ALPINE_GLIBC_BASE_PACKAGE_FILENAME" \
-        "$ALPINE_GLIBC_BIN_PACKAGE_FILENAME" \
-        "$ALPINE_GLIBC_I18N_PACKAGE_FILENAME"
+    "$ALPINE_GLIBC_BASE_PACKAGE_FILENAME" \
+    "$ALPINE_GLIBC_BIN_PACKAGE_FILENAME" \
+    "$ALPINE_GLIBC_I18N_PACKAGE_FILENAME"
 
 COPY --from=build /usr/local/bin/node /usr/local/bin/node
 COPY --from=build /usr/src/app /usr/src/app
