@@ -1,6 +1,6 @@
 {
   "name": "ethforward.dnp.dappnode.eth",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Dappnode package responsible for providing .eth address resolve through ENS",
   "avatar": "/ipfs/QmX2VK8wUfUfXetnCbYqhR6hwLV8W6XLcxRBRFWZhNq1tN",
   "type": "dncore",
