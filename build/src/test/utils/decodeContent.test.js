@@ -13,7 +13,7 @@ const decodeContent = require("../../src/utils/decodeContent");
 
 const contents = {
   "0x42ac3c26c60ffb14882d3e7fa401e791a069ef589f8d365dde7f241f1e67b095":
-    "/ipfs/QmSpuwejUGjREmgsvm8eq3ZdsS7mVTHCRPZmLiUq84S9x8"
+    "/bzz:/42ac3c26c60ffb14882d3e7fa401e791a069ef589f8d365dde7f241f1e67b095"
 };
 
 describe("util > decodeContent (CONTENT_INTERFACE_ID = '0xd8389dc5')", () => {
