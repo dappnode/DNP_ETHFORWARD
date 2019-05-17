@@ -13,9 +13,8 @@ function decodeContent(contentEncoded) {
 
   if (contentEncoded === "0x" || parseInt(contentEncoded) === 0) return;
 
-  const hex = contentEncoded.substring(2);
-  const buf = multihash.fromHexString(hex);
-  return "/ipfs/" + multihash.toB58String(multihash.encode(buf, "sha2-256"));
+  // It is assumed that all the pages that use content instead of contenthash are from swarm
+  return "/bzz:/" + contentEncoded.substring(2);
 }
 
 module.exports = decodeContent;
