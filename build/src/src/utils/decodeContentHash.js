@@ -18,10 +18,16 @@ function decodeContentHash(contenthash) {
   const contentHashEncoded = Buffer.from(contenthash.slice(2), "hex");
   const contentCodec = multicodec.getCodec(contentHashEncoded);
 
+  console.log(contentCodec)
+
   if (contentCodec.startsWith("ipfs")) {
     const value = multicodec.rmPrefix(contentHashEncoded);
     const cid = new CID(value);
     return "/ipfs/" + multihash.toB58String(cid.multihash);
+  } else if (contentCodec.startsWith("swarm")) {
+    const value = multicodec.rmPrefix(contentHashEncoded);
+    const cid = new CID(value);
+    return "/bzz:/" + multihash.decode(cid.multihash).digest.toString('hex');
   } else {
     console.log(`Unsupported codec: ${contenthash}`);
     return null;
@@ -29,3 +35,4 @@ function decodeContentHash(contenthash) {
 }
 
 module.exports = decodeContentHash;
+
