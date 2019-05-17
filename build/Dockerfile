@@ -13,13 +13,13 @@ RUN apk update && \
     apk add git python make g++ curl && \
     rm -rf /var/cache/apk/*
 
-COPY package.json .
-COPY package-lock.json .
+COPY src/package.json .
+COPY src/package-lock.json .
 RUN npm install --production
 
 RUN npm install -D webpack webpack-cli
 COPY src .
-RUN npm build
+RUN npm run bundle
 
 # This results in a single layer image
 FROM alpine
