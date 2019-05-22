@@ -2,3 +2,8 @@ testbuild
 test_build
 node_modules
 build_*
+
+# Build artifacts
+build/src/dist
+build/src/build
+build/src/bundle.js
