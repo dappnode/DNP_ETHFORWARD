@@ -1,6 +1,6 @@
 {
   "name": "ethforward.dnp.dappnode.eth",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Dappnode package responsible for providing .eth address resolve through ENS",
   "avatar": "/ipfs/QmX2VK8wUfUfXetnCbYqhR6hwLV8W6XLcxRBRFWZhNq1tN",
   "type": "dncore",
@@ -11,13 +11,19 @@
     "restart": "always",
     "subnet": "172.33.0.0/16",
     "ipv4_address": "172.33.1.3",
-    "environment": ["PIN_CONTENT_ON_VISIT="]
+    "environment": [
+      "PIN_CONTENT_ON_VISIT="
+    ]
   },
   "author": "DAppNode Association <admin@dappnode.io> (https://github.com/dappnode)",
   "contributors": [
     "Eduardo Antuña <eduadiez@gmail.com> (https://github.com/eduadiez)"
   ],
-  "keywords": ["DAppNodeCore", "ETHFORWARD", "ENS"],
+  "keywords": [
+    "DAppNodeCore",
+    "ETHFORWARD",
+    "ENS"
+  ],
   "links": {
     "homepage": "https://github.com/dappnode/DNP_ETHFORWARD#readme"
   },
