@@ -29,5 +29,7 @@ WORKDIR /usr/src/app
 RUN apk add --update nodejs
 
 COPY --from=build /usr/src/app/bundle.js /usr/src/app
+COPY --from=build /usr/src/app/src/views /usr/src/app
+ENV HTMLS_PATH=/usr/src/app
 
 ENTRYPOINT node /usr/src/app/bundle.js
