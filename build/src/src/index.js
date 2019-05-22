@@ -16,9 +16,10 @@ const pinContentOnVisit = process.env.PIN_CONTENT_ON_VISIT;
 const IPFS_API = "http://my.ipfs.dnp.dappnode.eth:5001/api/v0";
 
 // HTML pages
-const responseUnsynced = path.join(__dirname, "unsynced.html");
-const response404 = path.join(__dirname, "404.html");
-const responseNoSwarm = path.join(__dirname, "no-swarm.html");
+const htmlsPath = process.env.HTMLS_PATH || "src/views";
+const responseUnsynced = path.join(htmlsPath, "unsynced.html");
+const response404 = path.join(htmlsPath, "404.html");
+const responseNoSwarm = path.join(htmlsPath, "no-swarm.html");
 
 // Start server
 
