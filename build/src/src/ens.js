@@ -132,14 +132,17 @@ async function getInterfacesAvailable(resolver) {
  */
 function isListening(eth) {
   const ethProvider = eth.currentProvider.host;
-  console.log(eth.currentProvider.host);
   return axios
-    .post(ethProvider, {
-      jsonrpc: "2.0",
-      method: "net_listening",
-      params: [],
-      id: 754
-    })
+    .post(
+      ethProvider,
+      {
+        jsonrpc: "2.0",
+        method: "net_listening",
+        params: [],
+        id: 754
+      },
+      { headers: { "Content-Type": "application/json" } }
+    )
     .then(res => {
       if (res.status !== 200) return false;
       return (res.data || {}).result;
