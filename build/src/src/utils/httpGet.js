@@ -1,17 +1,7 @@
-const http = require("http");
+const axios = require("axios");
 
 function httpGet(url) {
-  return new Promise((resolve, reject) => {
-    http
-      .get(url, resp => {
-        let data = "";
-        resp.on("data", chunk => {
-          data += chunk;
-        });
-        resp.on("end", () => resolve(data));
-      })
-      .on("error", reject);
-  });
+  return axios.get(url).then(res => res.data);
 }
 
 module.exports = httpGet;
