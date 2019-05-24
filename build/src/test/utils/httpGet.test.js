@@ -11,7 +11,7 @@ describe("util > httpGet", () => {
   it("should retrieve data from a sample API", async () => {
     const res = await httpGet(url);
     assert.deepEqual(
-      JSON.parse(res),
+      res,
       {
         userId: 1,
         id: 1,

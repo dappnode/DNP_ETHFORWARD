@@ -1,9 +1,10 @@
 const http = require("http");
-const ens = require("./ens");
 const httpProxy = require("http-proxy");
 const fs = require("fs");
 const path = require("path");
+// Modules
 const httpGet = require("./utils/httpGet");
+const ens = require("./ens");
 
 // Define params
 
@@ -20,6 +21,7 @@ const htmlsPath = process.env.HTMLS_PATH || "src/views";
 const responseUnsynced = path.join(htmlsPath, "unsynced.html");
 const response404 = path.join(htmlsPath, "404.html");
 const responseNoSwarm = path.join(htmlsPath, "no-swarm.html");
+const responseNoRopsten = path.join(htmlsPath, "no-ropsten.html");
 
 // Start server
 
@@ -31,16 +33,22 @@ const proxy = httpProxy.createProxyServer({});
 
 http
   .createServer(async (req, res) => {
-    var domain = req.headers.host;
-    const content = await ens.getContent(domain);
+    try {
+      const domain = req.headers.host;
 
-    if (content == "0x404") {
-      res.writeHead(200, { "Content-Type": "text/html" });
-      fs.createReadStream(response404).pipe(res);
-    } else if (content == "0x") {
-      res.writeHead(200, { "Content-Type": "text/html" });
-      fs.createReadStream(responseUnsynced).pipe(res);
-    } else {
+      /**
+       * - `.eth` domains: Resolve with mainnet
+       * - `.test` domains: Resolve with ropsten
+       *   - If NETOFF error, return no-ropsten.html
+       * - else: return 404.html
+       */
+      const content = await ens.getContent(domain).catch(e => {
+        e.message = `no-content: ${e.message}`;
+        throw e;
+      });
+
+      if (!content) throw Error("404-not-found");
+
       if (content.startsWith("/ipfs/")) {
         /**
          * IPFS case:
@@ -68,12 +76,24 @@ http
           if (e.message.includes("EHOSTUNREACH")) {
             res.writeHead(200, { "Content-Type": "text/html" });
             fs.createReadStream(responseNoSwarm).pipe(res);
-            console.error(`Redirecting to fallback page no-swarm.html`);
+            console.log(`Redirecting to fallback page no-swarm.html`);
           } else {
             console.error(`Error proxying to ${url}: ${e.message}`);
           }
         });
       }
+    } catch (e) {
+      res.writeHead(200, { "Content-Type": "text/html" });
+      if (e.message.includes("no-ropsten")) {
+        fs.createReadStream(responseNoRopsten).pipe(res);
+      } else if (e.message.includes("no-content")) {
+        fs.createReadStream(responseUnsynced).pipe(res);
+      } else if (e.message.includes("404-not-found")) {
+        fs.createReadStream(response404).pipe(res);
+      } else {
+        fs.createReadStream(response404).pipe(res);
+      }
+      console.error(e.stack);
     }
   })
   .listen(port);
