@@ -13,7 +13,7 @@
   ],
   "license": "GPL-3.0",
   "dependencies": {
-    "cids": "^0.5.7",
+    "cids": "^0.7.1",
     "ethjs": "^0.4.0",
     "http-proxy": "^1.17.0",
     "multicodec": "^0.5.1",
