@@ -23,7 +23,7 @@
   "devDependencies": {
     "mocha": "^5.2.0",
     "request": "^2.88.0",
-    "webpack": "^4.30.0",
+    "webpack": "^4.41.2",
     "webpack-cli": "^3.3.1"
   }
 }
