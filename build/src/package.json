@@ -7,9 +7,11 @@
     "test": "TEST=true WEB3HOSTHTTP=https://mainnet.infura.io/v1 mocha --exit \"./{,!(node_modules)/**}/*.test.js\" ",
     "bundle": "npx webpack"
   },
-  "author": "Jordi Baylina",
+  "author": "DAppNode Association <admin@dappnode.io> (https://github.com/dappnode)",
   "contributors": [
-    "Eduardo Antuña <eduadiez@gmail.com> (https://github.com/eduadiez)"
+    "Jordi Baylina <jordi@baylina.cat> (https://github.com/jbaylina)",
+    "Eduardo Antuña <eduadiez@gmail.com> (https://github.com/eduadiez)",
+    "DAppLion <dapplion@giveth.io> (https://github.com/dapplion)"
   ],
   "license": "GPL-3.0",
   "dependencies": {
