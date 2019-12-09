@@ -4,12 +4,14 @@
   "description": "Dappnode package responsible for providing .eth address resolve through ENS ",
   "main": "src/index.js",
   "scripts": {
-    "test": "TEST=true WEB3HOSTHTTP=https://mainnet.infura.io/v1 mocha --exit \"./{,!(node_modules)/**}/*.test.js\" ",
+    "test": "TEST=true WEB3HOSTHTTP=https://mainnet.infura.io/v3/bb15bacfcdbe45819caede241dcf8b0d mocha --exit \"./{,!(node_modules)/**}/*.test.js\" ",
     "bundle": "npx webpack"
   },
-  "author": "Jordi Baylina",
+  "author": "DAppNode Association <admin@dappnode.io> (https://github.com/dappnode)",
   "contributors": [
-    "Eduardo Antuña <eduadiez@gmail.com> (https://github.com/eduadiez)"
+    "Jordi Baylina <jordi@baylina.cat> (https://github.com/jbaylina)",
+    "Eduardo Antuña <eduadiez@gmail.com> (https://github.com/eduadiez)",
+    "DAppLion <dapplion@giveth.io> (https://github.com/dapplion)"
   ],
   "license": "GPL-3.0",
   "dependencies": {
@@ -23,7 +25,7 @@
   "devDependencies": {
     "mocha": "^5.2.0",
     "request": "^2.88.0",
-    "webpack": "^4.30.0",
+    "webpack": "^4.41.2",
     "webpack-cli": "^3.3.1"
   }
 }

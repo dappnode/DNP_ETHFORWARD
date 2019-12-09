@@ -1,24 +1,23 @@
 version: '3.4'
 networks:
-    network:
-        driver: bridge
-        ipam:
-            config:
-                -
-                    subnet: 172.33.0.0/16
+  network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.33.0.0/16
 services:
-    ethforward.dnp.dappnode.eth:
-        build: ./build
-        image: 'ethforward.dnp.dappnode.eth:0.2.2'
-        container_name: DAppNodeCore-ethforward.dnp.dappnode.eth
-        restart: always
-        dns: 172.33.1.2
-        env_file:
-            - ethforward.dnp.dappnode.eth.env
-        networks:
-            network:
-                ipv4_address: 172.33.1.3
-        logging:
-            options:
-                max-size: 10m
-                max-file: '3'
+  ethforward.dnp.dappnode.eth:
+    build: ./build
+    image: 'ethforward.dnp.dappnode.eth:0.2.4'
+    container_name: DAppNodeCore-ethforward.dnp.dappnode.eth
+    restart: always
+    dns: 172.33.1.2
+    environment:
+      - PIN_CONTENT_ON_VISIT
+    networks:
+      network:
+        ipv4_address: 172.33.1.3
+    logging:
+      options:
+        max-size: 10m
+        max-file: '3'
